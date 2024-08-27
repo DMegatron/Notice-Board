@@ -54,13 +54,14 @@ input.image-loader {
 }
 
 .form-column button {
-    width: 100%;
+    width: 30%;
     height: 40px;
     border-radius: 5px;
     border: none;
     background-color: #e2e2e2;
     cursor: pointer;
     font-weight: bold;
+    margin-top: 20px;
 }
 
 .form-column button:hover {

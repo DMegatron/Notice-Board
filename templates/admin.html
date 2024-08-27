@@ -33,14 +33,14 @@
 
     <div class="sort">
         <div class="sort-by-date">
-            <form action="{{ url_for('admin', user = user) }}" method="post">
+            <form action="{{ url_for('admin') }}" method="post">
                 <label for="sort">Sort By Date: </label>
                 <input type="date" name="sort" id="sort">
                 <input type="submit" value="Sort">
             </form>
         </div>
         <div class="upload-btn">
-            <a href="{{ url_for('admin_upload_event', user = user) }}" class="button-link">
+            <a href="{{ url_for('admin_upload_event') }}" class="button-link">
                 <button>Upload Event</button>
             </a>
         </div>

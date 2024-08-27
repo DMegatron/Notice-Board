@@ -165,20 +165,22 @@ def school_page(school_name):
 
     return render_template(f'{school_name}.html', events_by_date=events_by_date, next_dates=next_dates)
 
-@app.route('/admin/<user>', methods=['GET', 'POST'])
-def admin(user):
-    # Get sort date and search query from the form (if provided)
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if 'user' not in session:
+        return redirect(url_for('verification'))  # Redirect to verification if not authenticated
+
+    user = session['user']
     sort_date = request.form.get('sort')
     search_query = request.form.get('search')
     
     today = datetime.now().date()
 
-    # If a specific date is provided, only show events for that date
     if sort_date:
         sort_date = datetime.strptime(sort_date, '%Y-%m-%d').date()
         date_range = [sort_date]
     else:
-        date_range = [today + timedelta(days=i) for i in range(90)]  # default to 90 days
+        date_range = [today + timedelta(days=i) for i in range(90)]
 
     events_by_date = {}
 
@@ -195,15 +197,21 @@ def admin(user):
         events_to_show = query.all()
         events_by_date[date] = events_to_show
 
-    return render_template('admin_upload_event.html', events_by_date=events_by_date, next_dates=date_range, user=user)
+    return render_template('admin.html', events_by_date=events_by_date, next_dates=date_range)
 
 
-@app.route('/admin_upload_event/<user>', methods=['GET', 'POST'])
-def admin_upload_event(user):
+
+@app.route('/admin_upload_event', methods=['GET', 'POST'])
+def admin_upload_event():
+    if 'user' not in session:
+        return redirect(url_for('verification'))  # Redirect to verification if not authenticated
+
+    user = session['user']
+    
     if request.method == 'POST':
         image = request.files.get('image')
         if not image:
-            return redirect(url_for('admin', user=user))
+            return redirect(url_for('admin'))
 
         name = secure_filename(image.filename)
         image_data = image.read()
@@ -221,22 +229,26 @@ def admin_upload_event(user):
         db.session.add(upload)
         db.session.commit()
 
-    return redirect(url_for('admin', user=user))
+        return redirect('admin')
+
+    return render_template('admin_upload_event.html')
+
 
 @app.route('/verification', methods=['GET', 'POST'])
 def verification():
-    if('user' in session and session['user'] == 'bhabna.de@faculty.adamasuniversity.ac.in'):
-        return redirect(url_for('admin', user = session['user']))
+    if 'user' in session:
+        return redirect('admin')
     
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         username = request.form.get('email')
         password = request.form.get('password')
-        if(username == 'bhabna.de@faculty.adamasuniversity.ac.in' and password == 'sexymadam'):
+        if username == 'bhabna.de@faculty.adamasuniversity.ac.in' and password == 'sexymadam':
             session['user'] = username
-            return redirect(url_for('admin', user = username))
+            return redirect('admin')
         else:
             return render_template('verification.html', error='Invalid credentials')
     return render_template('verification.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
