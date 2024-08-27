@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='CSS/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='CSS/SCHOOL.css') }}">
+    <title>SOLACS</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo"><img src="{{ url_for ('static', filename='Image/au-footer-logo.png') }}" alt="Logo"></div>
+            <ul>
+                <li><a href="{{ url_for('homepage') }}">HOME</a></li>
+                <li><a href="{{ url_for('SOET') }}">SOET</a></li>
+                <li><a href="{{ url_for('SOBAS') }}">SOBAS</a></li>
+                <li><a href="{{ url_for('SOLACS') }}" style="color: orange;">SOLACS</a></li>
+                <li><a href="{{ url_for('SOBE') }}">SOBE</a></li>
+                <li><a href="{{ url_for('SOLJ') }}">SOLJ</a></li>
+                <li><a href="{{ url_for('SOMC') }}">SOMC</a></li>
+                <li><a href="{{ url_for('SOE') }}">SOE</a></li>
+                <li><a href="{{ url_for('SOLSBT') }}">SOLSBT</a></li>
+                <li><a href="{{ url_for('SOMS') }}">SOMS</a></li>
+                <li><a href="{{ url_for('SOSAG') }}">SOSAG</a></li>
+                <li><a href="{{ url_for('verification') }}">ADMIN</a></li>
+            </ul>
+            <button id="dark-mode-toggle" class="dark-mode" aria-label="Toggle Dark Mode">🌙</button>
+        </nav>
+    </header>
+
+    <div class="sort">
+        <form action="{{ url_for('SOLACS') }}" method="post">
+            <label for="sort">Sort By Date: </label>
+            <input type="date" name="sort" id="sort">
+            <input type="submit" value="Sort">
+        </form>
+    </div>
+
+    <main>
+
+        {% for date in next_dates %}
+        {% if events_by_date[date] %}
+        <div class="event-list">
+            <div class="date-header">{{ date.strftime('%Y-%m-%d') }}</div>
+            <div class="event-panel">
+                {% for event in events_by_date[date] %}
+                <div class="event-item">
+                    <h3>Event Name: {{ event.e_name }}</h3>
+                    <p>School: {{ event.school }}&nbsp;&nbsp;Department: {{ event.department }}</p>
+                    <a href="{{ url_for('image', event_id = event.id)}}"><img
+                            src="{{ url_for('image', event_id=event.id) }}" alt="Event Image" class="event-img"></a>
+                    <p>For further details contact: {{ event.organizer }}</p>
+                    <p>Mobile: {{ event.phone }}</p>
+                    <p>Email: <a href="mailto:{{ event.email }}">{{ event.email[:35] }}{% if event.email|length > 35
+                            %}...{% endif %}</a></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </main>
+
+    <script src="{{ url_for('static', filename='JS/script.js') }}"></script>
+</body>
+
+</html>

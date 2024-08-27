@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/admin_upload_event.css') }}">
+    <title>Admin-Upload_Event</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo"><img src="{{ url_for('static', filename='Image/au-footer-logo.png') }}" alt="Logo"></div>
+            <ul>
+                <li><a href="{{ url_for('homepage') }}">HOME</a></li>
+                <li><a href="{{ url_for('SOET') }}">SOET</a></li>
+                <li><a href="{{ url_for('SOBAS') }}">SOBAS</a></li>
+                <li><a href="{{ url_for('SOLACS') }}">SOLACS</a></li>
+                <li><a href="{{ url_for('SOBE') }}">SOBE</a></li>
+                <li><a href="{{ url_for('SOLJ') }}">SOLJ</a></li>
+                <li><a href="{{ url_for('SOMC') }}">SOMC</a></li>
+                <li><a href="{{ url_for('SOE') }}">SOE</a></li>
+                <li><a href="{{ url_for('SOLSBT') }}">SOLSBT</a></li>
+                <li><a href="{{ url_for('SOMS') }}">SOMS</a></li>
+                <li><a href="{{ url_for('SOSAG') }}">SOSAG</a></li>
+                <li><a href="{{ url_for('verification') }}" style="color: orange;">ADMIN</a></li>
+            </ul>
+            <button id="dark-mode-toggle" class="dark-mode" aria-label="Toggle Dark Mode">🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="upload-image" style="margin-top: 20px; margin-left: 20px;">
+            <form action="{{ url_for('admin', user = user) }}" method="POST" enctype="multipart/form-data">
+                <div class="form-container">
+                    <div class="form-column">
+                        <label for="event_name">Event Name:</label>
+                        <input type="text" name="e_name" id="e_name" required>
+
+                        <label for="date">Date:</label>
+                        <input type="date" name="date" id="date" required>
+
+                        <label for="phone">Contact No:</label>
+                        <input type="number" name="phone" id="phone" required>
+                        <button type="submit">Upload Event</button>
+
+                    </div>
+
+                    <div class="form-column">
+                        <label for="school">School:</label>
+                        <input type="text" name="school" id="school" required>
+
+                        <label for="organizer">Coordinator:</label>
+                        <input type="text" name="organizer" id="organizer" required>
+
+                        <label for="image">Leaflet:</label>
+                        <input class="image-loader" type="file" name="image" required>
+
+                    </div>
+
+                    <div class="form-column">
+                        <label for="department">Department:</label>
+                        <input type="text" name="department" id="department" required>
+
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" required>
+
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='JS/script.js') }}"></script>
+</body>
+
+</html>
