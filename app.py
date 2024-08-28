@@ -168,7 +168,7 @@ def school_page(school_name):
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if 'user' not in session:
-        return redirect(url_for('verification'))  # Redirect to verification if not authenticated
+        return redirect(url_for('verification'))
 
     user = session['user']
     sort_date = request.form.get('sort')
@@ -204,7 +204,7 @@ def admin():
 @app.route('/admin_upload_event', methods=['GET', 'POST'])
 def admin_upload_event():
     if 'user' not in session:
-        return redirect(url_for('verification'))  # Redirect to verification if not authenticated
+        return redirect(url_for('verification'))
 
     user = session['user']
     
@@ -223,7 +223,6 @@ def admin_upload_event():
         department = request.form.get('department')
         email = request.form.get('email')
 
-        # Create and save the new event
         upload = events(name=name, data=image_data, date=date, e_name=e_name, organizer=organizer,
                         phone=phone, school=school, department=department, email=email, user=user)
         db.session.add(upload)
@@ -242,7 +241,7 @@ def verification():
     if request.method == 'POST':
         username = request.form.get('email')
         password = request.form.get('password')
-        if username == 'bhabna.de@faculty.adamasuniversity.ac.in' and password == 'sexymadam':
+        if username == 'bhabna.de@faculty.adamasuniversity.ac.in' and password == 'root':
             session['user'] = username
             return redirect('admin')
         else:
