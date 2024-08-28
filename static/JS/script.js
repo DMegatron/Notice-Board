@@ -4,7 +4,6 @@ const navbar = document.querySelector('.navbar');
 const sections = document.querySelectorAll('.section');
 const bottomSectionsDivs = document.querySelectorAll('.bottom-sections div');
 
-// Check if dark mode is enabled in localStorage
 if (localStorage.getItem('darkMode') === 'enabled') {
     enableDarkMode();
 } else {
